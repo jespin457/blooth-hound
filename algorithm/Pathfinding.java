@@ -44,10 +44,31 @@ class Board {
   //RANDOMIZES THE STARTING POINT OF THE PIECE ON A BORDER SPACE
   //START IS INDICATED BY S
   private void randomizeStartBorder() {
-    int start_x = (int) (Math.random() * (nOfCols - 1));
-    int start_y = (int) (Math.random() * (nOfRows - 1));
+    double random1 = Math.random(); //double between 0.0 and 1.0
+    double random2;
 
-    grid[start_y][start_x] = "S";
+    int xStart;
+    int yStart;
+
+    if (random1 < 0.5) {
+      xStart = (int) (Math.random() * (nOfCols - 1));
+      random2 = Math.random();
+      if (random2 < 0.5) {
+        yStart = 0;
+      } else {
+        yStart = nOfRows - 1;
+      }
+    } else {
+      yStart = (int) (Math.random() * (nOfRows - 1));
+      random2 = Math.random();
+      if (random2 < 0.5) {
+        xStart = 0;
+      } else {
+        xStart = nOfCols - 1;
+      }
+    }
+
+    grid[yStart][xStart] = "S";
   }
 }
 
