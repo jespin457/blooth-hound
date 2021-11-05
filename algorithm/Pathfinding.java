@@ -4,16 +4,43 @@ public class Pathfinding {
   public static void main(String[] args) {
     System.out.println("Pathfinding.java says: Hello World");
 
-    Board mainBoard = new Board(16, 16);
+    // Board mainBoard = new Board(8, 8);
 
-    mainBoard.displayGrid();
+    // // mainBoard.displayGrid();
+
+    // Piece player = new Piece("&");
+
+
+    
+    try {
+      while (true){
+        Board mainBoard = new Board(8, 8);
+
+        // mainBoard.displayGrid();
+
+        Piece player = new Piece("&");
+
+        player.pathfindToFinish(mainBoard);
+      }
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+
+    // mainBoard.displayGrid();
   }
 }
 
 class Board {
   String[][] grid;
-  int nOfRows;
-  int nOfCols;
+
+  int nOfRows; //ACTUAL COUNT
+  int nOfCols; //ACTUAL COUNT
+  
+  int rowStart; //index
+  int colStart; //index
+
+  int rowFinish; //index
+  int colFinish; //index
 
   //CLASS CONSTRUCTOR
   public Board(int nRows, int nCols) {
@@ -28,6 +55,8 @@ class Board {
     }
 
     this.randomizeStartOnBorder();
+
+    this.randomizeCornerFinish();
   }
 
   //DISPLAY GRID METHOD
@@ -52,26 +81,93 @@ class Board {
 
     if (random1 < 0.5) {
       xStart = (int) (Math.random() * (nOfCols - 1));
+      colStart = xStart;
       random2 = Math.random();
       if (random2 < 0.5) {
         yStart = 0;
+        rowStart = yStart;
       } else {
         yStart = nOfRows - 1;
+        rowStart = yStart;
       }
     } else {
       yStart = (int) (Math.random() * (nOfRows - 1));
+      rowStart = yStart;
       random2 = Math.random();
       if (random2 < 0.5) {
         xStart = 0;
+        colStart = xStart;
       } else {
         xStart = nOfCols - 1;
+        colStart = xStart;
       }
     }
 
     grid[yStart][xStart] = "S";
   }
+
+  private void randomizeCornerFinish() {
+    int vertMidpoint = (int) Math.ceil((nOfCols+1) / 2) - 1; // -1 due to 0 index
+    int horzMidpoint = (int) Math.ceil((nOfRows+1) / 2) - 1;
+
+    if (this.rowStart <= vertMidpoint) {
+      rowFinish = nOfRows - 1;
+    } else {
+      rowFinish = 0;
+    }
+
+    if (this.colStart <= horzMidpoint) {
+      colFinish = nOfCols - 1;
+    } else {
+      colFinish = 0;
+    }
+
+    this.grid[rowFinish][colFinish] = "X";
+  }
 }
 
 class Piece {
-  
+  String piece;
+  int steps = 0;
+
+  int vertSpacesToFinish; //arr index
+  int horzSpacesToFinish; //arr index
+
+  String vertDir; // "N" or "S"
+  String horzDir; //"W" or "E"
+
+  public Piece(String p) {
+    piece = p;
+  }
+
+  private void calcCardinalDirections(Board b) {
+    vertSpacesToFinish = b.rowStart - b.rowFinish;
+    horzSpacesToFinish = b.colStart - b.colFinish;
+
+    System.out.println("Must head " + vertSpacesToFinish + " vertically.");
+    System.out.println("Must head " + horzSpacesToFinish + " horizontally.");
+
+    vertDir = (vertSpacesToFinish > 0) ? "N" : "S";
+    horzDir = (horzSpacesToFinish > 0) ? "W" : "E";
+
+    System.out.println("Directions: " + vertDir + " and " + horzDir);
+  }
+
+  public void pathfindToFinish(Board b) {
+    b.grid[b.rowStart][b.colStart] = this.piece;
+
+    this.calcCardinalDirections(b);
+
+    if (this.vertDir == "N") {
+      while (vertSpacesToFinish > 0) {
+        b.grid[b.rowStart - vertSpacesToFinish][b.colStart] = "Λ";
+        vertSpacesToFinish--;
+      }
+    } else if (this.vertDir == "S") {
+      while (vertSpacesToFinish < 0) {
+        b.grid[Math.abs(vertSpacesToFinish) - b.rowStart][b.colStart] = "V";
+        vertSpacesToFinish++;
+      }
+    }
+  }
 }
