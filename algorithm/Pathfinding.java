@@ -23,11 +23,11 @@ class Board {
 
     for (String[] row : grid) {
       for (int i = 0; i < row.length; i++) {
-        row[i] = "O";
+        row[i] = "o";
       }
     }
 
-    this.randomizeStartBorder();
+    this.randomizeStartOnBorder();
   }
 
   //DISPLAY GRID METHOD
@@ -43,7 +43,7 @@ class Board {
 
   //RANDOMIZES THE STARTING POINT OF THE PIECE ON A BORDER SPACE
   //START IS INDICATED BY S
-  private void randomizeStartBorder() {
+  private void randomizeStartOnBorder() {
     double random1 = Math.random(); //double between 0.0 and 1.0
     double random2;
 
