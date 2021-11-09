@@ -4,29 +4,18 @@ public class Pathfinding {
   public static void main(String[] args) {
     System.out.println("Pathfinding.java says: Hello World");
 
-    // Board mainBoard = new Board(8, 8);
-
-    // // mainBoard.displayGrid();
-
-    // Piece player = new Piece("&");
-
-
-    
-    try {
-      while (true){
-        Board mainBoard = new Board(8, 8);
-
-        // mainBoard.displayGrid();
-
-        Piece player = new Piece("&");
-
-        player.pathfindToFinish(mainBoard);
-      }
-    } catch (Exception e) {
-      System.out.println(e);
-    }
+    Board mainBoard = new Board(8, 8);
 
     // mainBoard.displayGrid();
+
+    Piece player = new Piece("&");
+
+    mainBoard.displayGrid();
+    System.out.println("===");
+
+    player.pathfindToFinish(mainBoard);
+
+    mainBoard.displayGrid();
   }
 }
 
@@ -130,8 +119,8 @@ class Piece {
   String piece;
   int steps = 0;
 
-  int vertSpacesToFinish; //arr index
-  int horzSpacesToFinish; //arr index
+  int vertSpacesToFinish; //spaces, neg or pos
+  int horzSpacesToFinish; //spaces, neg or pos
 
   String vertDir; // "N" or "S"
   String horzDir; //"W" or "E"
@@ -142,13 +131,13 @@ class Piece {
 
   private void calcCardinalDirections(Board b) {
     vertSpacesToFinish = b.rowStart - b.rowFinish;
-    horzSpacesToFinish = b.colStart - b.colFinish;
+    horzSpacesToFinish = b.colFinish - b.colStart;
 
     System.out.println("Must head " + vertSpacesToFinish + " vertically.");
     System.out.println("Must head " + horzSpacesToFinish + " horizontally.");
 
     vertDir = (vertSpacesToFinish > 0) ? "N" : "S";
-    horzDir = (horzSpacesToFinish > 0) ? "W" : "E";
+    horzDir = (horzSpacesToFinish > 0) ? "E" : "W";
 
     System.out.println("Directions: " + vertDir + " and " + horzDir);
   }
@@ -159,14 +148,12 @@ class Piece {
     this.calcCardinalDirections(b);
 
     if (this.vertDir == "N") {
-      while (vertSpacesToFinish > 0) {
-        b.grid[b.rowStart - vertSpacesToFinish][b.colStart] = "Λ";
-        vertSpacesToFinish--;
+      for (int i = 0; i <= this.vertSpacesToFinish; i++) {
+        b.grid[b.rowStart - i][b.colStart] = "Λ";
       }
-    } else if (this.vertDir == "S") {
-      while (vertSpacesToFinish < 0) {
-        b.grid[Math.abs(vertSpacesToFinish) - b.rowStart][b.colStart] = "V";
-        vertSpacesToFinish++;
+    } else {
+      for (int i = 0; i >= this.vertSpacesToFinish; i--) {
+        b.grid[b.rowStart - i][b.colStart] = "V";
       }
     }
   }
