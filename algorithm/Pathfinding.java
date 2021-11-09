@@ -11,8 +11,11 @@ public class Pathfinding {
     Piece player = new Piece("&");
 
     mainBoard.displayGrid();
+    System.out.println("===");
 
     player.pathfindToFinish(mainBoard);
+
+    mainBoard.displayGrid();
   }
 }
 
@@ -116,8 +119,8 @@ class Piece {
   String piece;
   int steps = 0;
 
-  int vertSpacesToFinish; //arr index
-  int horzSpacesToFinish; //arr index
+  int vertSpacesToFinish; //spaces, neg or pos
+  int horzSpacesToFinish; //spaces, neg or pos
 
   String vertDir; // "N" or "S"
   String horzDir; //"W" or "E"
@@ -145,14 +148,12 @@ class Piece {
     this.calcCardinalDirections(b);
 
     if (this.vertDir == "N") {
-      while (vertSpacesToFinish > 0) {
-        b.grid[b.rowStart - vertSpacesToFinish][b.colStart] = "Λ";
-        vertSpacesToFinish--;
+      for (int i = 0; i <= this.vertSpacesToFinish; i++) {
+        b.grid[b.rowStart - i][b.colStart] = "Λ";
       }
-    } else if (this.vertDir == "S") {
-      while (vertSpacesToFinish < 0) {
-        b.grid[Math.abs(vertSpacesToFinish) - b.rowStart][b.colStart] = "V";
-        vertSpacesToFinish++;
+    } else {
+      for (int i = 0; i >= this.vertSpacesToFinish; i--) {
+        b.grid[b.rowStart - i][b.colStart] = "V";
       }
     }
   }
