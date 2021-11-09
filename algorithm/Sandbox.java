@@ -17,6 +17,6 @@ public class Sandbox {
     //   System.out.println("");
     // }
 
-    System.out.println((int) Math.floor(12.1));
+    System.out.println((int) (Math.random() * 26) + 1);
   }
 }

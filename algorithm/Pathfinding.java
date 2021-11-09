@@ -4,29 +4,15 @@ public class Pathfinding {
   public static void main(String[] args) {
     System.out.println("Pathfinding.java says: Hello World");
 
-    // Board mainBoard = new Board(8, 8);
-
-    // // mainBoard.displayGrid();
-
-    // Piece player = new Piece("&");
-
-
-    
-    try {
-      while (true){
-        Board mainBoard = new Board(8, 8);
-
-        // mainBoard.displayGrid();
-
-        Piece player = new Piece("&");
-
-        player.pathfindToFinish(mainBoard);
-      }
-    } catch (Exception e) {
-      System.out.println(e);
-    }
+    Board mainBoard = new Board(8, 8);
 
     // mainBoard.displayGrid();
+
+    Piece player = new Piece("&");
+
+    mainBoard.displayGrid();
+
+    player.pathfindToFinish(mainBoard);
   }
 }
 
@@ -142,13 +128,13 @@ class Piece {
 
   private void calcCardinalDirections(Board b) {
     vertSpacesToFinish = b.rowStart - b.rowFinish;
-    horzSpacesToFinish = b.colStart - b.colFinish;
+    horzSpacesToFinish = b.colFinish - b.colStart;
 
     System.out.println("Must head " + vertSpacesToFinish + " vertically.");
     System.out.println("Must head " + horzSpacesToFinish + " horizontally.");
 
     vertDir = (vertSpacesToFinish > 0) ? "N" : "S";
-    horzDir = (horzSpacesToFinish > 0) ? "W" : "E";
+    horzDir = (horzSpacesToFinish > 0) ? "E" : "W";
 
     System.out.println("Directions: " + vertDir + " and " + horzDir);
   }
