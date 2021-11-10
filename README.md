@@ -8,7 +8,7 @@ Hosted by GitHub.
 # What is this?
 While playing Stardew Valley, I noticed that the pathfinding of the player character would sometimes be a bit "janky". Specifically when near a little pocket of terrain and setting your path across a barrier. In the example below, the "barrier" so to speak would be the river. Notice that the player dips into the little "pocket" before adjusting their path.
 
-<img src="" alt="Stardew Valley Pathfinding">
+<img src="https://i.imgur.com/ox3MPyG.mp4" alt="Stardew Valley Pathfinding">
 
 I can imagine the reason the player attempts to cross the barrier at first is because it does not "detect" any barrier until it is close enough (something like 2 blocks away). When it does see that the path is intraversable, it likely adjusts by following the edge of the barrier until it finds a more reasonable path to take--notice it doesn't just take a direct vertical path towards the target and then a horizontal path. The player moves vertically **until** a diagonal path would get it directly onto the desired space.
 
