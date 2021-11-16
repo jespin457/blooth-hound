@@ -158,8 +158,10 @@ class Piece {
     }
 
     if (this.horzDir == "E") {
+      System.out.println("horzSpacesToFinish: " + this.horzSpacesToFinish);
+      System.out.println("vertSpacesToFinish: " + this.vertSpacesToFinish);
       for (int i = 0; i <= this.horzSpacesToFinish; i++) {
-        b.grid[b.rowStart - this.vertSpacesToFinish - 1][b.colStart + i] = ">";
+        b.grid[b.rowStart - this.vertSpacesToFinish][b.colStart + i] = ">";
       }
     } else {
       for (int i = 0; i >= this.horzSpacesToFinish; i--) {
