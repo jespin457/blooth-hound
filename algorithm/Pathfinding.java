@@ -4,13 +4,17 @@ public class Pathfinding {
   public static void main(String[] args) {
     System.out.println("Pathfinding.java says: Hello World");
 
-    Board mainBoard = new Board(8, 8);
+    Board mainBoard = new Board(10, 10);
 
-    // mainBoard.displayGrid();
+    mainBoard.displayGrid();
+    System.out.println("=========");
+    mainBoard.setStartAndFinish(new int[]{2, 2}, new int[]{3, 3});
+
+    mainBoard.displayGrid();
 
     Piece player = new Piece("&");
 
-    mainBoard.displayGrid();
+    // mainBoard.displayGrid();
     System.out.println("===");
 
     player.pathfindToFinish(mainBoard);
@@ -42,26 +46,41 @@ class Board {
         row[i] = "o";
       }
     }
-
-    this.randomizeStartOnBorder();
-
-    this.randomizeCornerFinish();
   }
 
   //DISPLAY GRID METHOD
   public void displayGrid() {
     for (String[] row : grid) {
       for (String space : row) {
-        System.out.print(space);
-        System.out.print(" ");
+        System.out.print(space + " ");
       }
       System.out.println("");
     }
   }
 
+  //PROVIDED IN [x, y]
+  //NOT INDICIES, ACTUAL COUNTS
+  public void setStartAndFinish(int[] start, int[] finish) {
+    if (
+      start[0] > this.nOfCols || start[1] > this.nOfRows
+      ||
+      finish[0] > this.nOfCols || finish[1] > this.nOfRows
+    ) {
+      System.out.println("Error: start or finish coordinates invalid.");
+    } else {
+      this.rowStart = start[0] - 1;
+      this.colStart = start[1] - 1;
+      this.grid[start[0] - 1][start[1] - 1] = "S";
+
+      this.rowFinish = finish[0] - 1;
+      this.colFinish = finish[1] - 1;
+      this.grid[finish[0] - 1][finish[1] - 1] = "X";
+    }
+  }
+
   //RANDOMIZES THE STARTING POINT OF THE PIECE ON A BORDER SPACE
   //START IS INDICATED BY S
-  private void randomizeStartOnBorder() {
+  public void randomizeStartOnBorder() {
     double random1 = Math.random(); //double between 0.0 and 1.0
     double random2;
 
@@ -95,7 +114,7 @@ class Board {
     grid[yStart][xStart] = "S";
   }
 
-  private void randomizeCornerFinish() {
+  public void randomizeCornerFinish() {
     int vertMidpoint = (int) Math.ceil((nOfCols+1) / 2) - 1; // -1 due to 0 index
     int horzMidpoint = (int) Math.ceil((nOfRows+1) / 2) - 1;
 
@@ -154,6 +173,18 @@ class Piece {
     } else {
       for (int i = 0; i >= this.vertSpacesToFinish; i--) {
         b.grid[b.rowStart - i][b.colStart] = "V";
+      }
+    }
+
+    if (this.horzDir == "E") {
+      System.out.println("horzSpacesToFinish: " + this.horzSpacesToFinish);
+      System.out.println("vertSpacesToFinish: " + this.vertSpacesToFinish);
+      for (int i = 0; i <= this.horzSpacesToFinish; i++) {
+        b.grid[b.rowStart - this.vertSpacesToFinish][b.colStart + i] = ">";
+      }
+    } else {
+      for (int i = 0; i >= this.horzSpacesToFinish; i--) {
+        b.grid[b.rowStart - this.vertSpacesToFinish][b.colStart + i] = "<";
       }
     }
   }
