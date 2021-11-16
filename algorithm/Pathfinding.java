@@ -4,7 +4,7 @@ public class Pathfinding {
   public static void main(String[] args) {
     System.out.println("Pathfinding.java says: Hello World");
 
-    Board mainBoard = new Board(8, 8);
+    Board mainBoard = new Board(16, 16);
 
     // mainBoard.displayGrid();
 
@@ -154,6 +154,16 @@ class Piece {
     } else {
       for (int i = 0; i >= this.vertSpacesToFinish; i--) {
         b.grid[b.rowStart - i][b.colStart] = "V";
+      }
+    }
+
+    if (this.horzDir == "E") {
+      for (int i = 0; i <= this.horzSpacesToFinish; i++) {
+        b.grid[b.rowStart - this.vertSpacesToFinish - 1][b.colStart + i] = ">";
+      }
+    } else {
+      for (int i = 0; i >= this.horzSpacesToFinish; i--) {
+        b.grid[b.rowStart - this.vertSpacesToFinish][b.colStart + i] = "<";
       }
     }
   }
